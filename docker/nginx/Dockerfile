@@ -1,16 +1,20 @@
-FROM nginx:latest
+FROM nginx:alpine
 
 ARG USER
 ARG GROUP
-ARG CONFIG_FOLDER
+ENV USER $USER
+ENV GROUP $GROUP
 
-ADD $CONFIG_FOLDER/nginx/nginx.conf /etc/nginx/
-ADD $CONFIG_FOLDER/nginx/default.conf /etc/nginx/conf.d/
+RUN if [ -z "`getent group $GROUP`"]; then \
+    addgroup -g 1000 -S $GROUP ; \
+fi
 
-RUN mkdir -p /var/www/html && \
-    useradd -ms /bin/bash $USER && \
-    gpasswd -a $USER root && \
-    chown -R $USER:$GROUP /var/www/html && \
-    chmod -R 775 /var/www/html && \
-    chgrp -R $USER /var/cache/nginx /var/run /var/log/nginx && \
-    chmod -R 770 /var/cache/nginx /var/run /var/log/nginx
+RUN if [ -z "`getent passwd $USER`"]; then \
+    adduser -u 1000 -D -S -G $USER -h /app -g $GROUP $USER ; \
+fi
+
+RUN mkdir -p /app \
+    && chown -R $USER:$GROUP /app \
+    && chmod -R 775 /app
+
+COPY ./docker/nginx/config/ /

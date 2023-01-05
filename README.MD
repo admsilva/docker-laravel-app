@@ -4,83 +4,62 @@
 
 - NGINX (latest)
 - MYSQL (latest)
-- PHP7.4-FPM (latest)
+- PHP8.2-FPM (latest)
 
 ## Instalação
 
 1. Obtenha o projeto
 
-```
-git clone https://github.com/admsilva/docker-laravel-app.git
-cd docker-laravel-app
-cp .env-example .env
-mkdir ./src/public
-touch ./src/public/index.php
-echo "<?php phpinfo();" >> ./src/public/index.php
-docker-compose up -d --build
-```
+    ```
+    git clone https://github.com/admsilva/docker-laravel-app.git
+    cd docker-laravel-app
+    cp .env-example .env
+    mkdir ./src/public
+    touch ./src/public/index.php
+    echo "<?php phpinfo();" >> ./src/public/index.php
+    docker-compose up -d --build
+    ```
 
 2. Se quiser você pode alterar as variáveis de ambiente no arquivo .env:
 
-```
-UID=1000
-USER=admsilva
-GID=1000
-GROUP=admsilva
-
-NGINX_PORT=8080
-MYSQL_PORT=3306
-NPM_PORT=3000
-
-APP_FOLDER=./src
-DATABASE_FOLDER=./data
-CONFIG_FOLDER=./etc
-LOG_FOLDER=./log
-DOCKER_FILE_FOLDER=./docker
-
-MYSQL_ROOT_PASSWORD=secret
-MYSQL_DATABASE=homestead
-MYSQL_USER=homestead
-MYSQL_PASSWORD=secret
-SERVICE_TAGS=dev
-SERVICE_NAME=mysql
-```
+    ```
+    UID=1000
+    USER=www-data
+    GID=1000
+    GROUP=www-data
+    
+    NGINX_PORT=8080
+    MYSQL_PORT=3306
+    NPM_PORT=3000
+    
+    APP_FOLDER=./src
+    DATABASE_FOLDER=./data
+    LOG_FOLDER=./log
+    DOCKER_FILE_FOLDER=./docker
+    
+    MYSQL_ROOT_PASSWORD=secret
+    MYSQL_DATABASE=homestead
+    MYSQL_USER=homestead
+    MYSQL_PASSWORD=secret
+    SERVICE_TAGS=dev
+    SERVICE_NAME=mysql
+    ```
 
 ## COMANDOS
 
+* Iniciando um projeto/lib com composer
+```
+docker-compose run --rm php.dev composer init
+```
+
 * Rodar composer install no projeto
 ```
-docker-compose run --rm composer install
+docker-compose run --rm php.dev composer install
 ```
 
 * Rodar composer update no projeto
 ```
-docker-compose run --rm composer update
-```
-
-* Gerar chave da aplicação
-```
-docker-compose run --rm artisan key:generate
-```
-
-* Para gerar as migrations
-```sh
-docker-compose run --rm artisan migrate
-```
-
-* Para gerar os seeds do banco de dados
-```sh
-docker-compose run --rm artisan db:seed
-```
-
-* Para executar testes da aplicação
-```sh
-docker-compose run --rm artisan test
-```
-
-* Para fazer o reset do banco de dados
-```sh
-docker-compose run --rm artisan migrate:reset
+docker-compose run --rm php.dev composer update
 ```
 
 ### Acesso 
@@ -110,10 +89,6 @@ Password: secret
 │  │  └─ database
 │  │ 
 │  ├─ docker
-│  │  │
-│  │  └─ composer
-|  |  |  |
-|  |  |  └─ Dockerfile
 |  |  |
 │  │  └─ mysql
 |  |  |  |
@@ -121,24 +96,36 @@ Password: secret
 |  |  |
 │  │  └─ nginx
 |  |  |  |
+|  |  |  └─ config
+|  |  |  |  |
+|  |  |  |  └─ etc
+|  |  |  |     |
+|  |  |  |     └─ nginx
+|  |  |  |        |
+|  |  |  |        └─ config.d
+|  |  |  |        |  |
+|  |  |  |        |  └─ default.conf
+|  |  |  |        |
+|  |  |  |        └─ nginx.conf
+|  |  |  |
 |  |  |  └─ Dockerfile
 |  |  |
 │  │  └─ php
 |  |  |  |
+|  |  |  └─ config
+|  |  |  |  |
+|  |  |  |  └─ usr
+|  |  |  |     |
+|  |  |  |     └─ local
+|  |  |  |        |
+|  |  |  |        └─ etc
+|  |  |  |           |
+|  |  |  |           └─ php-fpm.d
+|  |  |  |              |
+|  |  |  |              └─ www.conf
+|  |  |  |
 |  |  |  └─ Dockerfile
 |  |  |
-│  ├─ etc
-│  │  │
-│  │  |─ nginx
-|  |  |  |
-|  |  |  └─ default.conf
-|  |  |  |
-|  |  |  └─ nginx.conf
-│  │  │
-│  │  └─ php-fpm
-|  |     |
-|  |     └─ www.conf
-│  │ 
 │  ├─ log
 │  │  │
 │  │  └─ access & error log
