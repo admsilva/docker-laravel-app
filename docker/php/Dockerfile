@@ -1,42 +1,81 @@
-FROM php:7.4-fpm
+FROM php:8.2-fpm-alpine
 
 ARG USER
 ARG GROUP
 ARG CONFIG_FOLDER
+ENV USER $USER
+ENV GROUP $GROUP
+ENV COMPOSER_VERSION 2.5.1
+ENV LIB_SSH2_VERSION 1.3.1
 
-ADD $CONFIG_FOLDER/php-fpm/www.conf /usr/local/etc/php-fpm.d/
-ADD $CONFIG_FOLDER/cron.d/crontab /etc/cron.d/crontab
+RUN apk --update add --no-cache --no-progress \
+    ${PHPIZE_DEPS} \
+    libpng-dev \
+    openssl-dev \
+    gd \
+    libxml2-dev \
+    git \
+    freetype \
+    freetype-dev \
+    oniguruma-dev \
+    mpdecimal-dev \
+    php-phpdbg \
+    busybox \
+    apk-tools \
+    bash \
+    supervisor \
+    nano \
+    tar \
+    openssl \
+    openssh \
+    curl \
+    librdkafka-dev \
+    tzdata \
+    libpng \
+    libjpeg-turbo \
+    libpng \
+    libpng-dev \
+    libxml2-dev \
+    icu \
+    icu-dev \
+    gpgme-dev \
+    gpgme \
+    libssh2-dev \
+    autoconf \
+    build-base \
+    gmp-dev \
+    gmp \
+    gpg \
+    gnupg \
+    zip \
+    unzip \
+    libzip-dev \
+    libmcrypt-dev \
+    unixodbc \
+    unixodbc-dev \
+    libpq \
+    libpq-dev \
+    && rm -rf /var/cache/apk/*
 
-RUN apt-get update && \
-      apt-get install -y cron && \
-      apt-get install -y git && \
-      apt-get install -y curl && \
-      apt-get install -y libpng-dev && \
-      apt-get install -y libonig-dev && \
-      apt-get install -y libxml2-dev && \
-      apt-get install -y zip && \
-      apt-get install -y unzip && \
-      apt-get install -y zlib1g-dev && \
-      apt-get install -y libzip-dev && \
-      apt-get install -y sendmail && \
-      apt-get install -y mailutils && \
-      apt-get install -y libmcrypt-dev && \
-      apt-get clean && \
-      rm -rf /var/lib/apt/lists/* && \
-      echo "sendmail_from='notificacao@reithor.com.br'" >> /usr/local/etc/php/conf.d/sendmail.ini  && \
-      echo "sendmail_path=/usr/sbin/sendmail -t -i" >> /usr/local/etc/php/conf.d/sendmail.ini  && \
-      docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip && \
-      sed -i '/#!\/bin\/sh/aservice sendmail restart' /usr/local/bin/docker-php-entrypoint && \
-      sed -i '/#!\/bin\/sh/aecho "$(hostname -i)\t$(hostname) $(hostname).localhost" >> /etc/hosts' /usr/local/bin/docker-php-entrypoint && \
-      mkdir -p /var/www/html && \
-      useradd -ms /bin/bash $USER && \
-      gpasswd -a $USER root && \
-      chown -R $USER:$GROUP /var/www/html && \
-      chmod -R 775 /var/www/html && \
-      chmod 0644 /etc/cron.d/crontab && \
-      crontab /etc/cron.d/crontab && \
-      touch /var/log/cron.log && \
-      mkdir -p /home/$USER/.composer && \
-      chown -R $USER:$USER /home/$USER && \
-      cd /home/$USER && \
-      curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN pecl channel-update pecl.php.net \
+    && pecl install -o -f decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2-${LIB_SSH2_VERSION} rdkafka redis \
+    && docker-php-ext-install mbstring gd soap xml posix ctype pcntl intl bcmath gmp mysqli pdo pdo_mysql pdo_pgsql zip opcache \
+    && docker-php-ext-enable decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2 rdkafka redis \
+    && rm -rf /tmp/pear
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=$COMPOSER_VERSION \
+    && composer --version
+
+RUN if [ -z "`getent group $GROUP`"]; then \
+    addgroup -g 1000 -S $GROUP ; \
+fi
+
+RUN if [ -z "`getent passwd $USER`"]; then \
+    adduser -u 1000 -D -S -G $USER -h /app -g $GROUP $USER ; \
+fi
+
+RUN mkdir -p /app \
+    && chown -R $USER:$GROUP /app \
+    && chmod -R 775 /app
+
+COPY ./docker/php/config/ /
