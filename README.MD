@@ -33,7 +33,6 @@
     NPM_PORT=3000
     
     APP_FOLDER=./src
-    DATABASE_FOLDER=./data
     LOG_FOLDER=./log
     DOCKER_FILE_FOLDER=./docker
     
@@ -83,10 +82,6 @@ Password: secret
 ```
 ./
 ├──┐
-│  │ 
-│  ├─ data
-│  │  │
-│  │  └─ database
 │  │ 
 │  ├─ docker
 |  |  |
