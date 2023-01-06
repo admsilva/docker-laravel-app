@@ -2,9 +2,10 @@ FROM php:8.2-fpm-alpine
 
 ARG USER
 ARG GROUP
-ARG CONFIG_FOLDER
+ARG APP_FOLDER
 ENV USER $USER
 ENV GROUP $GROUP
+ENV APP_FOLDER $APP_FOLDER
 ENV COMPOSER_VERSION 2.5.1
 ENV LIB_SSH2_VERSION 1.3.1
 
@@ -74,8 +75,12 @@ RUN if [ -z "`getent passwd $USER`"]; then \
     adduser -u 1000 -D -S -G $USER -h /app -g $GROUP $USER ; \
 fi
 
+WORKDIR /app
+
+COPY ${APP_FOLDER}/ /app
+
+COPY ./docker/php/config/ /
+
 RUN mkdir -p /app \
     && chown -R $USER:$GROUP /app \
     && chmod -R 775 /app
-
-COPY ./docker/php/config/ /
