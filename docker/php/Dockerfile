@@ -1,8 +1,10 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2.2-fpm-alpine
 
+ARG APP_ENV
 ARG USER
 ARG GROUP
 ARG APP_FOLDER
+ENV APP_ENV $APP_ENV
 ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
@@ -72,15 +74,20 @@ RUN if [ -z "`getent group $GROUP`"]; then \
 fi
 
 RUN if [ -z "`getent passwd $USER`"]; then \
-    adduser -u 1000 -D -S -G $USER -h /app -g $GROUP $USER ; \
+    adduser -u 1000 -D -S -G $USER -h /home/$USER -g $GROUP $USER ; \
 fi
 
-WORKDIR /app
-
-COPY ${APP_FOLDER}/ /app
-
 COPY ./docker/php/config/ /
+COPY ./docker/php/scripts/ /
 
-RUN mkdir -p /app \
-    && chown -R $USER:$GROUP /app \
-    && chmod -R 775 /app
+RUN if [ "$APP_ENV" == "dev" ] ; then \
+    cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini ; \
+fi
+
+RUN if [ "$APP_ENV" != "dev" ] ; then \
+    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini ; \
+fi
+
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
