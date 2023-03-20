@@ -14,31 +14,28 @@
     git clone https://github.com/admsilva/docker-laravel-app.git
     cd docker-laravel-app
     cp .env-example .env
-    mkdir ./src/public
-    touch ./src/public/index.php
-    echo "<?php phpinfo();" >> ./src/public/index.php
     docker-compose up -d --build
     ```
 
 2. Se quiser você pode alterar as variáveis de ambiente no arquivo .env:
 
     ```
+    APP_ENV=dev
     UID=1000
-    USER=www-data
+    USER_NAME=www
     GID=1000
-    GROUP=www-data
+    GROUP_NAME=www
     
     NGINX_PORT=8080
     MYSQL_PORT=3306
-    NPM_PORT=3000
     
     APP_FOLDER=./src
     LOG_FOLDER=./log
     DOCKER_FILE_FOLDER=./docker
     
     MYSQL_ROOT_PASSWORD=secret
-    MYSQL_DATABASE=homestead
-    MYSQL_USER=homestead
+    MYSQL_DATABASE=local_database
+    MYSQL_USER=user_database
     MYSQL_PASSWORD=secret
     SERVICE_TAGS=dev
     SERVICE_NAME=mysql
@@ -103,6 +100,10 @@ Password: secret
 |  |  |  |        |
 |  |  |  |        └─ nginx.conf
 |  |  |  |
+|  |  |  └─ scripts
+|  |  |  |  |
+|  |  |  |  └─ docker-entrypoint.sh
+|  |  |  |
 |  |  |  └─ Dockerfile
 |  |  |
 │  │  └─ php
@@ -115,9 +116,19 @@ Password: secret
 |  |  |  |        |
 |  |  |  |        └─ etc
 |  |  |  |           |
+|  |  |  |           └─ php
+|  |  |  |           |  |
+|  |  |  |           |  └─ php.ini-development
+|  |  |  |           |  |
+|  |  |  |           |  └─ php.ini-production
+|  |  |  |           |
 |  |  |  |           └─ php-fpm.d
 |  |  |  |              |
 |  |  |  |              └─ www.conf
+|  |  |  |
+|  |  |  └─ scripts
+|  |  |  |  |
+|  |  |  |  └─ docker-entrypoint.sh
 |  |  |  |
 |  |  |  └─ Dockerfile
 |  |  |
