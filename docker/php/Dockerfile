@@ -1,4 +1,4 @@
-FROM php:8.2.2-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 ARG APP_ENV
 ARG USER
@@ -8,7 +8,7 @@ ENV APP_ENV $APP_ENV
 ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
-ENV COMPOSER_VERSION 2.5.1
+ENV COMPOSER_VERSION 2.5.4
 ENV LIB_SSH2_VERSION 1.3.1
 
 RUN apk --update add --no-cache --no-progress \
@@ -87,6 +87,10 @@ fi
 RUN if [ "$APP_ENV" != "dev" ] ; then \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini ; \
 fi
+
+RUN mkdir -p /app \
+  && chown -R $USER:$GROUP /app \
+  && chmod -R 755 /app
 
 RUN chmod +x /docker-entrypoint.sh
 
