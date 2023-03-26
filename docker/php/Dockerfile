@@ -8,7 +8,7 @@ ENV APP_ENV $APP_ENV
 ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
-ENV COMPOSER_VERSION 2.5.4
+ENV COMPOSER_VERSION 2.5.5
 ENV LIB_SSH2_VERSION 1.3.1
 
 RUN apk --update add --no-cache --no-progress \
@@ -90,8 +90,7 @@ fi
 
 RUN mkdir -p /app \
   && chown -R $USER:$GROUP /app \
-  && chmod -R 755 /app
-
-RUN chmod +x /docker-entrypoint.sh
+  && chmod -R 755 /app \
+  && chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
