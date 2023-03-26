@@ -21,8 +21,7 @@ RUN mkdir -p /app \
   && chmod -R 755 /app \
   && chown -R $USER:$GROUP /var/log/nginx \
   && chown -R $USER:$GROUP /var/cache/nginx \
-  && chown -R $USER:$GROUP /etc/nginx
-
-RUN chmod +x /docker-entrypoint.sh
+  && chown -R $USER:$GROUP /etc/nginx \
+  && chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
