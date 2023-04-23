@@ -4,6 +4,7 @@
 
 - NGINX (latest)
 - MYSQL (latest)
+- REDIS (latest)
 - PHP8.2-FPM (latest)
 
 ## Instalação
@@ -25,20 +26,23 @@
     USER_NAME=www
     GID=1000
     GROUP_NAME=www
-    
+
     NGINX_PORT=8080
     MYSQL_PORT=3306
-    
+
     APP_FOLDER=./src
     LOG_FOLDER=./log
     DOCKER_FILE_FOLDER=./docker
-    
+
     MYSQL_ROOT_PASSWORD=secret
     MYSQL_DATABASE=local_database
     MYSQL_USER=user_database
     MYSQL_PASSWORD=secret
-    SERVICE_TAGS=dev
-    SERVICE_NAME=mysql
+    MYSQL_SERVICE_TAGS=dev
+    MYSQL_SERVICE_NAME=mysql
+
+    REDIS_PORT=6379
+    REDIS_PASSWORD=redis-password
     ```
 
 ## COMANDOS
@@ -72,6 +76,14 @@ Host: locahost
 Port: 3306
 User: homestead
 Password: secret
+```
+
+### Redis
+
+```
+Host: locahost
+Port: 6379
+Password: redis-password
 ```
 
 #### Estrutura de diretórios
@@ -129,6 +141,10 @@ Password: secret
 |  |  |  └─ scripts
 |  |  |  |  |
 |  |  |  |  └─ docker-entrypoint.sh
+|  |  |  |
+|  |  |  └─ Dockerfile
+|  |  |
+│  │  └─ redis
 |  |  |  |
 |  |  |  └─ Dockerfile
 |  |  |
