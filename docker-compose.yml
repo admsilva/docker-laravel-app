@@ -1,11 +1,5 @@
 version: '3'
 
-networks:
-  app:
-
-volumes:
-  mysql.dev.mysql:
-
 services:
   mysql.dev:
     container_name: mysql.dev
@@ -16,7 +10,7 @@ services:
       - ${MYSQL_PORT}:3306
     restart: always
     volumes:
-      - mysql.dev.mysql:/var/lib/mysql
+      - mysql.dev.data:/var/lib/mysql
       - ${LOG_FOLDER}:/var/log/mysql
     working_dir: /var/lib/mysql
     environment:
@@ -24,8 +18,23 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-      SERVICE_TAGS: ${SERVICE_TAGS}
-      SERVICE_NAME: ${SERVICE_NAME}
+      SERVICE_TAGS: ${MYSQL_SERVICE_TAGS}
+      SERVICE_NAME: ${MYSQL_SERVICE_NAME}
+    networks:
+      - app
+
+  redis.dev:
+    container_name: redis.dev
+    build:
+      context: .
+      dockerfile: ${DOCKER_FILE_FOLDER}/redis/Dockerfile
+    ports:
+      - ${REDIS_PORT}:6379
+    restart: always
+    volumes:
+      - redis.dev.data:/data
+    working_dir: /data
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     networks:
       - app
 
@@ -72,3 +81,10 @@ services:
       - php.dev
     networks:
       - app
+
+networks:
+  app:
+
+volumes:
+  mysql.dev.data:
+  redis.dev.data:

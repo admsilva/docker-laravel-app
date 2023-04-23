@@ -9,7 +9,7 @@ ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
 ENV COMPOSER_VERSION 2.5.5
-ENV LIB_SSH2_VERSION 1.3.1
+ENV LIB_SSH2_VERSION 1.4
 
 RUN apk --update add --no-cache --no-progress \
     ${PHPIZE_DEPS} \
@@ -21,6 +21,7 @@ RUN apk --update add --no-cache --no-progress \
     freetype \
     freetype-dev \
     oniguruma-dev \
+    mpdecimal \
     mpdecimal-dev \
     php-phpdbg \
     busybox \
