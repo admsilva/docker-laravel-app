@@ -23,6 +23,23 @@ services:
     networks:
       - app
 
+  mongo.dev:
+    container_name: mongo.dev
+    build:
+      context: .
+      dockerfile: ${DOCKER_FILE_FOLDER}/mongo/Dockerfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    ports:
+      - ${MONGO_PORT}:27017
+    volumes:
+      - mongo.dev.data:/data/db
+    working_dir: /data/db
+    networks:
+      - app
+
   redis.dev:
     container_name: redis.dev
     build:
@@ -88,3 +105,4 @@ networks:
 volumes:
   mysql.dev.data:
   redis.dev.data:
+  mongo.dev.data:
