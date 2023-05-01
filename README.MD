@@ -3,6 +3,7 @@
 ## Componentes
 
 - NGINX (latest)
+- MONGO (4.4)
 - MYSQL (latest)
 - REDIS (latest)
 - PHP8.2-FPM (latest)
@@ -21,28 +22,33 @@
 2. Se quiser você pode alterar as variáveis de ambiente no arquivo .env:
 
 ```
-   APP_ENV=dev
-   UID=1000
-   USER_NAME=www
-   GID=1000
-   GROUP_NAME=www
-
-   NGINX_PORT=8181
-   MYSQL_PORT=3308
-
-   APP_FOLDER=./src
-   LOG_FOLDER=./log
-   DOCKER_FILE_FOLDER=./docker
-
-   MYSQL_ROOT_PASSWORD=secret
-   MYSQL_DATABASE=local_database
-   MYSQL_USER=user_database
-   MYSQL_PASSWORD=secret
-   MYSQL_SERVICE_TAGS=dev
-   MYSQL_SERVICE_NAME=mysql
-
-   REDIS_PORT=6379
-   REDIS_PASSWORD=redis-password
+    APP_ENV=dev
+    UID=1000
+    USER_NAME=www
+    GID=1000
+    GROUP_NAME=www
+    
+    NGINX_PORT=8181
+    MYSQL_PORT=3308
+    
+    APP_FOLDER=./src
+    LOG_FOLDER=./log
+    DOCKER_FILE_FOLDER=./docker
+    
+    MYSQL_ROOT_PASSWORD=secret
+    MYSQL_DATABASE=local_database
+    MYSQL_USER=user_database
+    MYSQL_PASSWORD=secret
+    MYSQL_SERVICE_TAGS=dev
+    MYSQL_SERVICE_NAME=mysql
+    
+    REDIS_PORT=6379
+    REDIS_PASSWORD=redis-password
+   
+    MONGO_USER=user
+    MONGO_ROOT_PASSWORD=secret
+    MONGO_DATABASE=local_database
+    MONGO_PORT=27017
 ```
 
 ## COMANDOS
