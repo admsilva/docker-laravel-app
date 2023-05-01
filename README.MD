@@ -69,6 +69,15 @@
    http://localhost:8181
 ```
 
+### Mongo
+
+```
+   Host: localhost
+   Port: 27017
+   User: user
+   Password: secret
+```
+
 ### MySQL
 
 ```
@@ -93,6 +102,10 @@
    ├──┐
    │  │ 
    │  ├─ docker
+   |  |  |
+   │  │  └─ mongo
+   |  |  |  |
+   |  |  |  └─ Dockerfile   
    |  |  |
    │  │  └─ mysql
    |  |  |  |
