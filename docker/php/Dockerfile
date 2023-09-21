@@ -8,7 +8,7 @@ ENV APP_ENV $APP_ENV
 ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
-ENV COMPOSER_VERSION 2.5.7
+ENV COMPOSER_VERSION 2.6.3
 ENV LIB_SSH2_VERSION 1.4
 
 RUN apk --update add --no-cache --no-progress \
@@ -89,9 +89,6 @@ RUN if [ "$APP_ENV" != "dev" ] ; then \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini ; \
 fi
 
-RUN mkdir -p /app \
-  && chown -R $USER:$GROUP /app \
-  && chmod -R 755 /app \
-  && chmod +x /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
-ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "-c", "/docker-entrypoint.sh \"${USER}\" ${GROUP}"]

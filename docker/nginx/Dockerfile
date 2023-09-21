@@ -16,12 +16,9 @@ fi
 COPY ./docker/nginx/config/ /
 COPY ./docker/nginx/scripts/ /
 
-RUN mkdir -p /app \
-  && chown -R $USER:$GROUP /app \
-  && chmod -R 755 /app \
-  && chown -R $USER:$GROUP /var/log/nginx \
+RUN chown -R $USER:$GROUP /var/log/nginx \
   && chown -R $USER:$GROUP /var/cache/nginx \
   && chown -R $USER:$GROUP /etc/nginx \
   && chmod +x /docker-entrypoint.sh
 
-ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "-c", "/docker-entrypoint.sh \"${USER}\" ${GROUP}"]
