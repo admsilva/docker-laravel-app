@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f878788bd0c3e7e44cb8d755a06e591",
+    "content-hash": "dccfa8d64bc758eafb545a590665000e",
     "packages": [
         {
             "name": "brick/math",
@@ -1877,7 +1877,7 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "dev-master",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
@@ -1907,7 +1907,6 @@
                 "orchestra/testbench": "^8.0",
                 "phpunit/phpunit": "^10.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -9223,9 +9222,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "mongodb/laravel-mongodb": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
