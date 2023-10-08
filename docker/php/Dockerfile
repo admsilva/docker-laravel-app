@@ -8,7 +8,7 @@ ENV APP_ENV $APP_ENV
 ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
-ENV COMPOSER_VERSION 2.6.3
+ENV COMPOSER_VERSION 2.6.5
 ENV LIB_SSH2_VERSION 1.4
 
 RUN apk --update add --no-cache --no-progress \
@@ -75,7 +75,7 @@ RUN if [ -z "`getent group $GROUP`"]; then \
 fi
 
 RUN if [ -z "`getent passwd $USER`"]; then \
-    adduser -u 1000 -D -S -G $USER -h /home/$USER -g $GROUP $USER ; \
+    adduser -u 1000 -D -S -G $USER -h /app -g $GROUP $USER ; \
 fi
 
 COPY ./docker/php/config/ /
