@@ -3,7 +3,7 @@
 ## Componentes
 
 - NGINX (latest)
-- MONGO (4.4)
+- MONGO (latest)
 - MYSQL (latest)
 - REDIS (latest)
 - PHP8.2-FPM (latest)
