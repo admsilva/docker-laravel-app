@@ -8,7 +8,7 @@ ENV APP_ENV $APP_ENV
 ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
-ENV COMPOSER_VERSION 2.7.1
+ENV COMPOSER_VERSION 2.7.2
 ENV LIB_SSH2_VERSION 1.4.1
 
 RUN apk --update add --no-cache --no-progress \
@@ -62,9 +62,9 @@ RUN apk --update add --no-cache --no-progress \
     && rm -rf /var/cache/apk/*
 
 RUN pecl channel-update pecl.php.net \
-    && pecl install -o -f decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2-${LIB_SSH2_VERSION} rdkafka redis \
+    && pecl install -o -f decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2-${LIB_SSH2_VERSION} rdkafka redis pcov \
     && docker-php-ext-install mbstring gd soap xml posix ctype pcntl intl bcmath gmp mysqli pdo pdo_mysql pdo_pgsql zip opcache \
-    && docker-php-ext-enable decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2 rdkafka redis \
+    && docker-php-ext-enable decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2 rdkafka redis pcov \
     && rm -rf /tmp/pear
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=$COMPOSER_VERSION \
