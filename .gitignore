@@ -7,3 +7,4 @@ log/*
 !log/.gitkeep
 .php-cs-fixer.cache
 psalm.xml
+.DS_Store
