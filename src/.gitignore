@@ -20,3 +20,4 @@ yarn-error.log
 /.composer
 .ash_history
 /public/coverage
+.DS_Store
