@@ -9,20 +9,20 @@
         "ext-pdo": "*",
         "guzzlehttp/guzzle": "^7.9",
         "mongodb/laravel-mongodb": "^4.8",
-        "laravel/framework": "^11.27",
+        "laravel/framework": "^11.32",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10",
         "predis/predis": "^2.2"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23",
-        "laravel/sail": "^1.35",
+        "fakerphp/faker": "^1.24",
+        "laravel/sail": "^1.38",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.4",
-        "pestphp/pest": "^2.35",
+        "nunomaduro/collision": "^8.5",
+        "pestphp/pest": "^2.36",
         "phpunit/phpunit": "^10.5",
         "spatie/laravel-ignition": "^2.8",
-        "squizlabs/php_codesniffer": "^3.10"
+        "squizlabs/php_codesniffer": "^3.11"
     },
     "autoload": {
         "psr-4": {
