@@ -6,7 +6,7 @@
 - MONGO (latest)
 - MYSQL (latest)
 - REDIS (latest)
-- PHP8.3-FPM-ALPINE (latest)
+- PHP8.4-FPM-ALPINE (latest)
 
 ## Instalação
 
