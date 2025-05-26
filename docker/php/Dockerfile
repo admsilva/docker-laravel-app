@@ -8,8 +8,9 @@ ENV APP_ENV $APP_ENV
 ENV USER $USER
 ENV GROUP $GROUP
 ENV APP_FOLDER $APP_FOLDER
-ENV COMPOSER_VERSION 2.8.6
+ENV COMPOSER_VERSION 2.8.9
 ENV LIB_SSH2_VERSION 1.4.1
+ENV LIB_MONGODB_VERSION 2.1.0
 
 RUN apk --update add --no-cache --no-progress \
     ${PHPIZE_DEPS} \
@@ -62,7 +63,7 @@ RUN apk --update add --no-cache --no-progress \
     && rm -rf /var/cache/apk/*
 
 RUN pecl channel-update pecl.php.net \
-    && pecl install -o -f decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2-${LIB_SSH2_VERSION} rdkafka redis pcov \
+    && pecl install -o -f decimal apcu gnupg pdo_sqlsrv timezonedb mongodb-${LIB_MONGODB_VERSION} ssh2-${LIB_SSH2_VERSION} rdkafka redis pcov \
     && docker-php-ext-install mbstring gd soap xml posix ctype pcntl intl bcmath gmp mysqli pdo pdo_mysql pdo_pgsql zip opcache \
     && docker-php-ext-enable decimal apcu gnupg pdo_sqlsrv timezonedb mongodb ssh2 rdkafka redis pcov \
     && rm -rf /tmp/pear
